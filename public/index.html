@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encuesta INO</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- CameraTag script -->
+  <script src="https://www.cameratag.com/api/v15/js/cameratag.min.js"></script>
+  <link rel="stylesheet" href="https://www.cameratag.com/v15/css/cameratag.css">
+
+  <!-- Firebase Configuration -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div class="container my-5">
+    <!-- Página de bienvenida -->
+    <div class="card mx-auto p-4 shadow-lg" style="max-width: 400px;" id="welcomeCard">
+      <h3 class="text-center mb-4">Construyamos juntos el Observatorio de Salud Respiratoria INO</h3>
+      <p>
+        zEstamos construyendo el <b>Observatorio de Salud Respiratoria</b>, una plataforma institucional de integración y 
+        análisis de datos clave, tanto internos como externos.
+      </p>
+      <p>
+        Este Observatorio será una herramienta estratégica para generar conocimiento relevante que impulse la 
+        toma de decisiones en la institución, contribuyendo así a los compromisos expresados en nuestra misión y visión.
+      </p>
+      <p>
+        En la etapa de diseño y definición de alcance, queremos conocer las expectativas que esta nueva herramienta 
+        institucional generan en nuestros equipos profesionales. Por ello, le invitamos a compartir sus expectativas 
+        y visiones sobre cómo el Observatorio puede contribuir al logro de los compromisos institucionales.
+      </p>      <div class="text-center">
+        <button class="btn btn-primary w-100" id="nextButtonWelcome">Siguiente</button>
+      </div>
+    </div>
+
+      <!-- Página 2 (oculta al inicio) -->
+      <div class="card mx-auto p-4 shadow-lg d-none" style="max-width: 400px;" id="infoCard">
+      
+        <p>Para guiar esta reflexión, considere las siguientes preguntas orientadoras:
+          <ul>
+            <li><b>¿Para qué servirá disponer de datos actualizados sobre eventos relacionados con la salud respiratoria en el INO?</b> 
+                <br />Piense en ejemplos concretos relacionados con su área. Por ejemplo, ¿qué tipos de decisiones o procesos en su trabajo 
+                se beneficiarían de esta información?
+            <li><b>¿Cómo cree que el Observatorio podría facilitar o mejorar los procesos en su área de desempeño?</b>
+              <br />(Ej.: monitoreo de resultados clínicos, optimización de recursos, seguimiento de tendencias epidemiológicas, etc.).
+            <li><b>¿Quiénes deberían constituir los principales públicos del Observatorio?</b> 
+              <br />Considere quiénes, dentro y fuera de la institución, se beneficiarían más de la información y análisis proporcionados por el Observatorio.
+          </ul>
+        </p>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" id="backButtonInfo">Atrás</button>
+        <button class="btn btn-primary" id="nextButtonInfo">Siguiente</button>
+      </div>
+    </div>
+
+    <!-- Contenido principal (página final) -->
+    <div class="card mx-auto p-3 p-sm-4 shadow-lg d-none" style="max-width: 400px;" id="mainContent">
+      <p>
+        A continuación podrá enviar sus reflexiones en texto o grabando un audio.  
+        Recuerde los puntos guía:
+      </p>
+      <ul>
+        <li>¿Para qué servirá disponer de datos?</li>
+        <li>¿Cómo podrían los datos facilitar los procesos en su área?</li>
+        <li>¿Quiénes serían los principales públicos del Observatorio</li>
+      </ul>
+      <hr />
+      <form>
+        <!-- Campo para el nombre -->
+        <div class="row mb-3 align-items-center">
+          <div class="col-sm-12">
+            <input type="text" class="form-control" id="userName" placeholder="Su nombre" required>
+          </div>
+        </div>
+
+        <!-- Campo para el rol -->
+        <div class="row mb-3 align-items-center">
+          <div class="col-sm-12">
+            <input type="text" class="form-control" id="userRole" placeholder="Su cargo" required>
+          </div>
+        </div>
+
+        <!-- Componente de CameraTag para grabar audio -->
+        <div class="cameratag-container" style="max-width: 100%; overflow: hidden;">
+          <microphone 
+            id="myFirstMicrophone" 
+            data-app-id="a-7443b180-798c-013d-ad21-0abe8b919efd" 
+            data-maxlength="120" 
+            data-metadata='{}'>
+          </microphone>
+        </div>
+      
+
+        <!-- Textarea para respuestas escritas -->
+        <div class="mb-3">
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Escribe tu respuesta aquí"></textarea>
+        </div>
+
+        <!-- Botón para enviar el mensaje escrito -->
+        <div class="text-center mb-3">
+          <button type="button" class="btn btn-dark w-100" id="submitTextButton">Enviar</button>
+        </div>
+
+        <!-- Botones para alternar entre texto y audio -->
+        <div class="mb-3">Si lo prefiere, puede:
+          <button type="button" class="btn btn-secondary" id="toggleTextButton">Enviar respuesta como texto</button>
+          <button type="button" class="btn btn-info" id="toggleMicrophoneButton">Enviar respuesta en audio</button>
+        </div>
+
+        <!-- Botón para regresar a la página anterior -->
+        <div class="d-flex justify-content-start">
+          <button class="btn btn-secondary" id="backButtonMain">Atrás</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Página de Agradecimiento (oculta al inicio) -->
+    <div class="card mx-auto p-4 shadow-lg d-none" style="max-width: 400px;" id="thankYouCard">
+      <h3 class="text-center mb-4">¡Gracias por su participación!</h3>
+      <p class="text-center">Su participación es fundamental para construir un Observatorio que realmente potencie la labor del INO y el bienestar de nuestros pacientes.</p>
+      <p class="text-center">Leslie Katherine Vargas.</p>
+      <div class="text-center">
+        <button class="btn btn-primary" onclick="window.location.reload()">Finalizar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS y archivo de JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+  
+</body>
+</html>

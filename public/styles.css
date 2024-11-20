@@ -1,0 +1,21 @@
+/* Estilo del componente de micrófono */
+#myFirstMicrophone {
+  width: 300px;
+  max-width: 100%;
+  height: 200px;
+}
+
+  
+/* Estilos de la tarjeta principal */
+.card {
+  background-color: #285bad;
+  color: azure;
+}
+
+/* Ocultar textarea, botón de enviar, y botón de alternar al cargar la página */
+#exampleFormControlTextarea1,
+#submitTextButton,
+#toggleMicrophoneButton {
+  display: none;
+}
+  
